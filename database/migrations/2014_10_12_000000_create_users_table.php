@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('about_me');
-            $table->string('profil_pic');
+            $table->string('profile_pic');
             $table->boolean('is_mod');
             $table->boolean('is_admin');
             $table->boolean('is_private');
