@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 use App\User;
+use Validator;
+
 
 
 class UserController extends Controller
@@ -20,28 +22,6 @@ class UserController extends Controller
      */
     public function index() {
         return redirect()->route('admin.user.show');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -84,20 +64,39 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        // Validate input fields
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'email' => 'required|email',
+            'about_me' => 'max:200',
+            'profile_pic' => 'max:10000|mimes:jpg'
+        ]);
+ 
+        if ($validator->fails()) {
+            return redirect()->route('admin.user.edit', ['id' => $user->id])
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+ 
         $user->update($request->all());
 
+        // retrieve checkbox values and change their value for database
         $is_admin = isset($request['is_admin']) ? 1 : 0;
         $is_mod = isset($request['is_mod']) ? 1 : 0;
         $is_private = isset($request['is_private']) ? 1 : 0;
 
-        // TODO: Create a user specific name, and delete old picture (override?)
-        if ($request->has('profile_pic')) {
+        if ($request->hasFile('profile_pic')) {
             $file = $request->file('profile_pic');
-            $filename = $file->getClientOriginalName();
-            $file = $file->move(public_path('images/profil/'), $filename);
 
-            $path = '/images/profil/' . $filename;
-            $user->update(['is_admin' => $is_admin, 'is_mod' => $is_mod, 'is_private' => $is_private, 'profile_pic' => $path]);
+            // generate a user specific filename
+            $filename = $user->id . "_" . $user->username .  "."  . $file->getClientOriginalExtension();
+
+            // replace old profil picture by new one.
+            self::deleteProfilePicture($user);
+            $file = $file->move(public_path('/images/profile/'), $filename);
+
+            $path = '/images/profile/' . $filename;
+            $user->update(['profile_pic' => $path]);
         }
 
         $user->update(['is_admin' => $is_admin, 'is_mod' => $is_mod, 'is_private' => $is_private]);
@@ -113,6 +112,16 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+        self::deleteProfilePicture($user);
         return redirect()->route('admin.user.show');
+    }
+
+    public function deleteProfilePicture(User $user)
+    {
+        $picture = glob(public_path('/images/profile/') . $user->id . "_" . $user->username . '.*');
+
+        if (!empty($picture) && file_exists($picture[0])) {
+            unlink($picture[0]);                                
+        }
     }
 }

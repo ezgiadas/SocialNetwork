@@ -7,10 +7,25 @@
 
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<div>
-					<a class="btn btn-large btn-primary" href="{{ URL::previous() }}">BACK</a>
-					<img class="img-circle img-responsive center-block picture-size" src="{{ $user->profile_pic }}" alt="Profil Picture">
+				<div class="row-fluid">
+					<a class="btn btn-large btn-primary" href="{{ route('admin.user.show') }}">BACK</a>
 				</div>	
+				
+				<p>
+					<img class="img-circle img-responsive center-block picture-size" src="{{ $user->profile_pic }}" alt="Profil Picture">
+				</p>
+
+				<div class="row-fluid">
+					@if (count($errors) > 0)
+					    <div class="alert alert-danger">
+					        <ul>
+					            @foreach ($errors->all() as $error)
+					                <li>{{ $error }}</li>
+					            @endforeach
+					        </ul>
+					    </div>
+					@endif
+				</div>
 
 				<form action="{{ route('users.destroy', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
 					{{-- Form Method Spoofing --}}
@@ -30,7 +45,7 @@
 						<div class="checkbox">
 							<label>
 								<input 
-								type="checkbox" name="is_admin"  value="{{ $user->is_admin }}" @if ($user->is_admin == 1) checked @endif/>Admin 
+								type="checkbox" name="is_admin" @if ($user->is_admin == 1) checked @endif/>Admin 
 							</label>
 						</div>
 						<div class="checkbox">

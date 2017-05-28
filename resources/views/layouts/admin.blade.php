@@ -9,37 +9,7 @@
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-
-	<style type="text/css">
-		.paddings {
-			margin: 5% 8% 4% 8%;
-		}
-
-		.clickable-row {
-			cursor: pointer;
-		}
-
-		.center {
-			text-align: center;
-		}
-
-		body {
-			background-color: #e4e4e4;
-		}
-
-		textarea {
-			resize: none;
-		}
-
-		.margin-up-btn {
-			margin-top: 5px;
-		}
-
-		.picture-size {
-			width: 250px;
-			height: 250px;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="/css/admin.css">
 
 </head>
 <body>
@@ -70,14 +40,7 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-	<script type="text/javascript">
-		$(document).ready(function($) {
-			$(".clickable-row").click(function() {
-				window.location = $(this).data("href");
-			});
-		});
-	</script>
+	<script src="/js/admin.js" type="text/javascript"></script>
 
 </body>	      	
 
