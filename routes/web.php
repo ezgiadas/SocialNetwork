@@ -12,7 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+     return view('welcome');
+});
+
+Route::group(['middleware' => ['web']], function () {
+    Route::post ('/create_group', [
+      'uses' => 'GroupController@createGroup',
+      'as' => 'createGroup'
+
+    ]);
 });
 
 Auth::routes();
