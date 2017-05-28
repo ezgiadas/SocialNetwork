@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Storage;
 use App\User;
 use Validator;
 
-
-
 class UserController extends Controller
 {
     /**
@@ -89,7 +87,7 @@ class UserController extends Controller
             $file = $request->file('profile_pic');
 
             // generate a user specific filename
-            $filename = $user->id . "_" . $user->username .  "."  . $file->getClientOriginalExtension();
+            $filename = $user->id . '.' . $file->getClientOriginalExtension();
 
             // replace old profil picture by new one.
             $user->deleteProfilePicture($user);

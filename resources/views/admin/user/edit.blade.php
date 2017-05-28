@@ -19,7 +19,7 @@
 					<form action="{{ route('admin.deleteProfilePicture', ['id' => $user->id]) }}" method="POST">
 						{{-- Form Method Spoofing --}}
 						{{ csrf_field() }}
-						<button type="submit" class="btn btn-danger margin-up-btn">REMOVE PICTURE</button>
+						<button type="submit" class="btn btn-danger	btn-xs">REMOVE PICTURE</button>
 					</form>
 				</div>
 

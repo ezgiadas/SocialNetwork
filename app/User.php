@@ -29,7 +29,7 @@ class User extends Authenticatable
 
     public function deleteProfilePicture()
     {
-        $picture = glob(public_path('/images/profile/') . $this->id . "_" . $this->username . '.*');
+        $picture = glob(public_path('/images/profile/') . $this->id . '.*');
         if (!empty($picture) && file_exists($picture[0])) {
             unlink($picture[0]);                                
         }
