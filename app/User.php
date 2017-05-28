@@ -26,4 +26,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function deleteProfilePicture()
+    {
+        $picture = glob(public_path('/images/profile/') . $this->id . "_" . $this->username . '.*');
+        if (!empty($picture) && file_exists($picture[0])) {
+            unlink($picture[0]);                                
+        }
+    }
 }

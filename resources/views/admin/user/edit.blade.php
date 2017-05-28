@@ -15,6 +15,14 @@
 					<img class="img-circle img-responsive center-block picture-size" src="{{ $user->profile_pic }}" alt="Profil Picture">
 				</p>
 
+				<div class="center">
+					<form action="{{ route('admin.deleteProfilePicture', ['id' => $user->id]) }}" method="POST">
+						{{-- Form Method Spoofing --}}
+						{{ csrf_field() }}
+						<button type="submit" class="btn btn-danger margin-up-btn">REMOVE PICTURE</button>
+					</form>
+				</div>
+
 				<div class="row-fluid">
 					@if (count($errors) > 0)
 					    <div class="alert alert-danger">
@@ -27,7 +35,7 @@
 					@endif
 				</div>
 
-				<form action="{{ route('users.destroy', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
+				<form action="{{ route('users.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
 					{{-- Form Method Spoofing --}}
 					{{ method_field('PUT') }}
 					{{ csrf_field() }}

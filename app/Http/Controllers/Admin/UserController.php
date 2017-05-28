@@ -69,7 +69,7 @@ class UserController extends Controller
             'username' => 'required',
             'email' => 'required|email',
             'about_me' => 'max:200',
-            'profile_pic' => 'max:10000|mimes:jpg'
+            'profile_pic' => 'image|max:10000|mimes:jpeg,png'
         ]);
  
         if ($validator->fails()) {
@@ -92,7 +92,7 @@ class UserController extends Controller
             $filename = $user->id . "_" . $user->username .  "."  . $file->getClientOriginalExtension();
 
             // replace old profil picture by new one.
-            self::deleteProfilePicture($user);
+            $user->deleteProfilePicture($user);
             $file = $file->move(public_path('/images/profile/'), $filename);
 
             $path = '/images/profile/' . $filename;
@@ -116,12 +116,10 @@ class UserController extends Controller
         return redirect()->route('admin.user.show');
     }
 
-    public function deleteProfilePicture(User $user)
+    public function deleteProfilePicture($id)
     {
-        $picture = glob(public_path('/images/profile/') . $user->id . "_" . $user->username . '.*');
-
-        if (!empty($picture) && file_exists($picture[0])) {
-            unlink($picture[0]);                                
-        }
+        $user = User::find($id);
+        $user->deleteProfilePicture();
+        return view('admin.user.edit')->withUser($user);
     }
 }
