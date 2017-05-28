@@ -63,6 +63,12 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+
+                                    <li>
+                                        <a href="{{ route('useraccount') }}" >
+                                            Account
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         @endif

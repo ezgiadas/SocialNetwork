@@ -16,13 +16,15 @@ class UserController extends Controller
 {
 
     public function useraccount() {
-        return view('useraccount', ['user'=> Auth:user()]);
+        return view('user.home', ['user'=> Auth::user()]);
     }
 
-    public function saveaccount(Request $request) {
+
+
+    public function saveuseraccount(Request $request) {
       $this->validate($request, [
           'name' => 'required|string|max:255',
-          'email' => 'required|string|email|max:255|unique:users',
+          'email' => 'required|string|email|max:255',
        ]);
 
         $user = Auth::user();

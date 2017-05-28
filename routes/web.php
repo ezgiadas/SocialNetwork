@@ -19,5 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/useraccount', 'UserController@useraccount')->name('useraccount');
-Route::post('/updateaccount', 'UserController@saveaccount')->name('useraccount.save');
+Route::get('/useraccount', 'User\UserController@useraccount')->name('useraccount');
+
+Route::post('/updateaccount', 'User\UserController@saveuseraccount')->name('useraccount.save');
